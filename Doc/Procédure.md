@@ -2,7 +2,6 @@
 
 ## Requirement
    1. ISO image of Debian 9.3.0 (amd64)
-      2.
 
 ## VMWare Installation
    **Only follow theses steps if you are installing your OS on VMware Workstation 12**
@@ -30,4 +29,52 @@
       - Enlever → Printer
 
 ## Debian Installation
+
+### Choice of country and language
    - Power on the Debian OS
+   - Debian GNU/Linux installer boot menu → Install
+   - Language → English - English
+   - Country, territory or area → United States
+   - Keymap to use → Swiss French. *It's important to get a **QWERTZ** keyboard*
+   - Hostname → SharedHosting- **NAME**
+   - Domain name → Let it empty
+
+
+### Choice of root and user account
+   - Root password → root. *It's an example, for security use a true password*
+   - Re-enter password to verify → root
+   - Full name for the new user → cpnv
+   - Username for your account → cpnv
+   - Choose a password for the new user → cpnv. *It's an example, for security use a true password*
+   - Re-enter password to verify → cpnv
+   - Select your time zone → Central
+
+
+### Partitioning disks  
+   - Partitionning disks → Guided - use entire disk and set up LVM. *LVM (Logical Volume Manager)     concist on goup all physical disks or partitions in one big volume in which you can make logical partitions how many times you want and edit them. So whe use it to be able to extend the storage space*
+   - Select disk to partition → SCSI3 (0,0,0) (sda) - 21.5 GB VMware, VMware Virtual S
+   - Partitionning scheme → Separate /home, /var, and /tmp partitions. *Separate /home and /var to be able to migrate system without losing user or website*
+   - Write the changes to disks and configure LVM? → Yes
+   - Choose → Finish partitioning and write change to disk
+   - Write the changes to disks → Yes
+   - Scan another CD or DVD → No
+   - Debian archive miror country → Go Back
+   - Continue wirthout a network miror → Yes
+   - Play the  folowing song while waiting→ ♫♪♫♫♪♪ ♫♫♫ ♪♫♫♪
+   - Participate in the package usage survey? → No
+
+### Software selection
+
+   - Choose software to install → With the **Spacebar** be sure to uncheck the standard system utilities and → Continue
+   - Install the GRUB boot loader to the master boot record? → Yes
+   - Device for boot loader installation → /dev/sda
+   - Finish the installation → Continue
+
+   Now, the installation is finish
+
+## Package install
+
+### Maria DB
+### NGINX
+### pierre crosse
+### PHP - FTM
