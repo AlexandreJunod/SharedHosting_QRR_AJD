@@ -60,7 +60,6 @@
    - Scan another CD or DVD → No
    - Debian archive miror country → Go Back
    - Continue wirthout a network miror → Yes
-   - Play the  folowing song while waiting→ ♫♪♫♫♪♪ ♫♫♫ ♪♫♫♪
    - Participate in the package usage survey? → No
 
 ### Software selection
@@ -71,6 +70,7 @@
    - Finish the installation → Continue
 
    Now, the installation is finish
+   **Take a snapshot of the VM if you're using VMware**
 
 ## Package install
 
