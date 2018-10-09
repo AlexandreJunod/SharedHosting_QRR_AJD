@@ -62,8 +62,8 @@
    - Continue wirthout a network miror → Yes
    - Participate in the package usage survey? → No
 
-### Software selection
 
+### Software selection
    - Choose software to install → With the **Spacebar** be sure to uncheck the standard system utilities and → Continue
    - Install the GRUB boot loader to the master boot record? → Yes
    - Device for boot loader installation → /dev/sda
@@ -72,9 +72,39 @@
    Now, the installation is finish
    **Take a snapshot of the VM if you're using VMware**
 
+### Ip configuration
+   - # nano /etc/network/interfaces
+   - The last block as to be like this. You can put other **address, netmask and gateway** :
+   # The primary network interface
+   allow-hotplug ens32
+   iface ens32 inet static
+         address 172.17.218.69
+         netmask 255.255.255.0
+         gateway 172.17.0.1
+   - VM → Settings → Network Adapter → Bridged (Automatic)
+   - # Reboot
+
+
 ## Package install
 
+### Change server packages distribution
+   - # nano /etc/apt/sources.list
+   - Put everything in comment with "#" and add :
+   deb http://debian.ethz.ch/debian stable main contrib non-free
+
+### Update the list of packages know by the system
+   - # apt-get update
+
+### Sudo to be able to install/configura without be logged as root
+   - # apt-get install sudo
+
+### SSH to work
+   - $ sudo apt-get install ssh
+
 ### Maria DB
+   -
+
 ### NGINX
-### pierre crosse
 ### PHP - FTM
+### SSH (+ ip statique + bridge)
+### SUDO
