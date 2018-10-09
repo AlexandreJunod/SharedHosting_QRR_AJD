@@ -2,6 +2,7 @@
 
 ## Requirement
    1. ISO image of Debian 9.3.0 (amd64)
+  *you can download debian iso on https://www.debian.org/distrib/netinst*
 
 ## VMWare Installation
    **Only follow theses steps if you are installing your OS on VMware Workstation 12**
