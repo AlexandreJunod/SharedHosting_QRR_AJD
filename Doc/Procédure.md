@@ -102,12 +102,11 @@
 
 ### SSH to work
    - $ sudo apt-get install ssh
-   PAS OUBLIER DE METTRE EN BRIDGE POUR QUE QUENTIN PUISSE SE CONNECTER BRUUUUUUH :skull:
 
 ### Maria DB
-   -
+   - $ sudo apt-get install mariadb-server   
+   - https://www.linode.com/docs/databases/mariadb/mariadb-setup-debian/
 
 ### NGINX
-### PHP - FTM
-### SSH (+ ip statique + bridge)
-### SUDO
+### PHP - FPM
+   - $ sudo apt install php7.0 php7.0-common php7.0-cli php7.0-fpm
