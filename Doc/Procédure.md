@@ -73,6 +73,18 @@
    Now, the installation is finish
    **Take a snapshot of the VM if you're using VMware**
 
+### Configuration ip
+   - # nano /etc/network/interfaces
+   - Put everything in comments (#) and add the next lines (You can put another **IP, Netmask, Gateway**) :
+   # ens32 network interface
+   auto ens32
+   iface ens32 inet static
+         address 172.17.218.69
+         netmask 255.255.0.0
+         gateway 172.17.0.1
+   - VM → Settings → Network Adapter → Bridged
+   - # reboot
+
 ## Package install
 
 ### Change server packages distribution
