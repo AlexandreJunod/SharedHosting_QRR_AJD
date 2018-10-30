@@ -75,13 +75,23 @@
 
 ### Configuration ip
    - # nano /etc/network/interfaces
-   - Put everything in comments (#) and add the next lines (You can put another **IP, Netmask, Gateway**) :
-   # ens32 network interface
-   auto ens32
-   iface ens32 inet static
-         address 172.17.218.69
-         netmask 255.255.0.0
-         gateway 172.17.0.1
+   - Put everything like in the example under (You can put another **IP, Netmask, Gateway**) :
+   ```# This file describes the network interfaces available on your system
+      # and how to activate them. For more information, see interfaces(5).
+
+      source /etc/network/interfaces.d/*
+
+      # The loopback network interface
+      auto ens32
+      iface ens32 inet static
+              address 172.17.218.69
+              netmask 255.255.0.0
+              gateway 172.17.0.1
+
+      # The primary network interface
+      allow-hotplug ens32
+      iface ens32 inet dhcp
+      ```
    - VM → Settings → Network Adapter → Bridged
    - # reboot
 
@@ -106,7 +116,25 @@
 ### Maria DB
    - $ sudo apt-get install mariadb-server   
    - https://www.linode.com/docs/databases/mariadb/mariadb-setup-debian/
+#### Configuration
+   - Connecter to the DB (Password is the password of root user)
+   - # mysql -u root -p
+##### Create a new DB, new user and give all the privileges of the DB on the user
+   - CREATE DATABASE testdb;
+   - CREATE USER 'testuser'@'localhost' IDENTIFIED BY 'password';
+   - GRANT ALL PRIVILEGES ON testdb.* TO testuser@localhost;
+   - FLUSH PRIVILEGES;
+   - quit
+##### Allow the user to connect on the DB from remote host
+   - GRANT ALL PRIVILEGES ON testdb.* TO testuser@'%' IDENTIFIED BY 'secretpassword';
+   - FLUSH PRIVILEGES;
+   - quit
+##### Login with testuser on the DB testdb
+   - # mysql -u testuser -p (the password is password)
+   - USE testdb;
 
 ### NGINX
+
+
 ### PHP - FPM
    - $ sudo apt install php7.0 php7.0-common php7.0-cli php7.0-fpm
