@@ -2,7 +2,7 @@
 
 ## Requirement
    1. ISO image of Debian 9.3.0 (amd64)
-  *you can download debian iso on https://www.debian.org/distrib/netinst*
+    *you can download debian iso on https://www.debian.org/distrib/netinst*
 
 ## VMWare Installation
    **Only follow theses steps if you are installing your OS on VMware Workstation 12**
@@ -74,9 +74,12 @@
    **Take a snapshot of the VM if you're using VMware**
 
 ### Configuration ip
-   - # nano /etc/network/interfaces
+   ```bash
+   # nano /etc/network/interfaces
+   ```
    - Put everything like in the example under (You can put another **IP, Netmask, Gateway**) :
-   ```# This file describes the network interfaces available on your system
+   ```bash
+      # This file describes the network interfaces available on your system
       # and how to activate them. For more information, see interfaces(5).
 
       source /etc/network/interfaces.d/*
@@ -91,50 +94,81 @@
       # The primary network interface
       allow-hotplug ens32
       iface ens32 inet dhcp
-      ```
+   ```
    - VM → Settings → Network Adapter → Bridged
-   - # reboot
+   ```bash
+   # reboot
+   ```
 
 ## Package install
 
 ### Change server packages distribution
-   - # nano /etc/apt/sources.list
+   ```bash
+   # nano /etc/apt/sources.list
+   ```
    - Put everything in comment with "#" and add :
+   ```bash
    deb http://debian.ethz.ch/debian stable main contrib non-free
+   ```
 
 ### Update the list of packages know by the system
-   - # apt-get update && apt-get upgrade
+   ```bash
+   # apt-get update && apt-get upgrade
+   ```
 
 ### Sudo to be able to install/configura without be logged as root
-   - # apt-get install sudo
-   - # adduser cpnv sudo
-   - # reboot
+   ```bash
+   # apt-get install sudo
+   # adduser cpnv sudo
+   # reboot
+   ```
 
 ### SSH to work
-   - $ sudo apt-get install ssh
+   ```bash
+   $ sudo apt-get install ssh
+   ```
 
 ### Maria DB
-   - $ sudo apt-get install mariadb-server   
-   - https://www.linode.com/docs/databases/mariadb/mariadb-setup-debian/
+#### Installation
+   ```bash
+   $ sudo apt-get install mariadb-server   
+   ```
 #### Configuration
    - Connecter to the DB (Password is the password of root user)
-   - # mysql -u root -p
-##### Create a new DB, new user and give all the privileges of the DB on the user
-   - CREATE DATABASE testdb;
-   - CREATE USER 'testuser'@'localhost' IDENTIFIED BY 'password';
-   - GRANT ALL PRIVILEGES ON testdb.* TO testuser@localhost;
-   - FLUSH PRIVILEGES;
-   - quit
-##### Allow the user to connect on the DB from remote host
-   - GRANT ALL PRIVILEGES ON testdb.* TO testuser@'%' IDENTIFIED BY 'secretpassword';
-   - FLUSH PRIVILEGES;
-   - quit
-##### Login with testuser on the DB testdb
-   - # mysql -u testuser -p (the password is password)
-   - USE testdb;
+   ```bash
+   # mysql -u root -p
+   ```
+#### Create a new DB, new user and give all the privileges of the DB on the user
+   ```sql
+   //Enter line after line
+   CREATE DATABASE testdb;
+   CREATE USER 'testuser'@'localhost' IDENTIFIED BY 'password';
+   GRANT ALL PRIVILEGES ON testdb.* TO testuser@localhost;
+   FLUSH PRIVILEGES;
+   quit
+   ```
+#### Allow the user to connect on the DB from remote host
+   ```sql
+   //Enter line after line
+   GRANT ALL PRIVILEGES ON testdb.* TO testuser@'%' IDENTIFIED BY 'secretpassword';
+   FLUSH PRIVILEGES;
+   quit
+   ```
+#### Login with testuser on the DB testdb
+   ```bash
+   # mysql -u testuser -p (the password is password)
+   ```
+   ```sql
+   USE testdb;
+   ```
 
 ### NGINX
-
+   ```bash
+   # sudo apt install ngyinx
+   # service nginx start
+   ```
 
 ### PHP - FPM
-   - $ sudo apt install php7.0 php7.0-common php7.0-cli php7.0-fpm
+   ```bash
+   $ sudo apt install php7.0 php7.0-common php7.0-cli php7.0-fpm
+   ```
