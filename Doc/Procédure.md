@@ -216,6 +216,14 @@
    ```bash
    chmod 700 newuser
    ```
+   - Change owner
+   ```bash
+   sudo chown root newuser
+   ```
+   - Place on a directory saved on thr $PATH
+   ```bash
+   sudo mv newuser /bin
+   ```
 
 ### Create an user
    - Add a new user
