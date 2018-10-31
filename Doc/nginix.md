@@ -23,18 +23,32 @@ commande à faire
     </body>
 </html>
 
-https://askubuntu.com/questions/766352/multiple-websites-on-nginx-one-ip
+ Il faut faire le truck de base, et dans le script, à chaque fois, ajouter le truck avec le site de base 
+                                                                  
+      server_name 172.17.208.69;                                  
+                                                                  
+                                                                  
+      location / {                                                
+              return 418;                                         
+      }                                                           
+                                                                  
+      location /proj1/ {                                          
+              alias /var/www/proj1;                               
+              try_files $uri /index.html index.php;               
+      }                                                           
+                                                                  
+      location /proj2/ {                                          
+               alias /var/www/proj2;                              
+               try_files $uri /index.html index.php;              
+      }                                                           
+                                                                  
+      location /proj3/ {                                          
+              alias /var/www/proj3;                               
+              try_files $uri /index.html index.php;               
+      }                                                           
+                                                                  
 
-pour modifier il faut faire $
 
-location /test 1 {
-	root
-	home
-	try...
-}
+Il faut le "x" dans le "other" afin d'y accéder sur la page web.
 
-location /test 2 {
-	root 
-	home 
-
-}
+Il faut encore tester le truck du prof voir si sa marche.
