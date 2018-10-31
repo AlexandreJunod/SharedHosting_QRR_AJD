@@ -4,6 +4,7 @@
    1. ISO image of Debian 9.3.0 (amd64)
     *you can download debian iso on https://www.debian.org/distrib/netinst*
 
+
 ## VMWare Installation
    **Only follow theses steps if you are installing your OS on VMware Workstation 12**
    - On VMware : File → New virtual machine
@@ -28,6 +29,7 @@
       - Enlever → USB Controller
       - Enlever → Sound Card
       - Enlever → Printer
+
 
 ## Debian Installation
 
@@ -73,9 +75,10 @@
    Now, the installation is finish
    **Take a snapshot of the VM if you're using VMware**
 
-### Configuration ip
+
+### Configuration ip, connected as root
    ```bash
-   # nano /etc/network/interfaces
+   nano /etc/network/interfaces
    ```
    - Put everything like in the example under (You can put another **IP, Netmask, Gateway**) :
    ```bash
@@ -97,47 +100,57 @@
    ```
    - VM → Settings → Network Adapter → Bridged
    ```bash
-   # reboot
+   reboot
    ```
+
 
 ## Package install
 
-### Change server packages distribution
+### Change server packages distribution, connected as root
    ```bash
-   # nano /etc/apt/sources.list
+   nano /etc/apt/sources.list
    ```
    - Put everything in comment with "#" and add :
    ```bash
    deb http://debian.ethz.ch/debian stable main contrib non-free
    ```
 
-### Update the list of packages know by the system
+
+### Update the list of packages know by the system, connected as root
    ```bash
-   # apt-get update && apt-get upgrade
+   apt-get update && apt-get upgrade
    ```
+
 
 ### Sudo to be able to install/configura without be logged as root
    ```bash
-   # apt-get install sudo
-   # adduser cpnv sudo
-   # reboot
+   apt-get install sudo
+   adduser cpnv sudo
+   reboot
    ```
+
 
 ### SSH to work
    ```bash
-   $ sudo apt-get install ssh
+   sudo apt-get install ssh
    ```
 
+
 ### Maria DB
+
 #### Installation
    ```bash
-   $ sudo apt-get install mariadb-server   
+   sudo apt-get install mariadb-server   
    ```
+
+
 #### Configuration
    - Connecter to the DB (Password is the password of root user)
    ```bash
-   # mysql -u root -p
+   sudo mysql -u root -p
    ```
+
+
 #### Create a new DB, new user and give all the privileges of the DB on the user
    ```sql
    //Enter line after line
@@ -147,6 +160,8 @@
    FLUSH PRIVILEGES;
    quit
    ```
+
+
 #### Allow the user to connect on the DB from remote host
    ```sql
    //Enter line after line
@@ -154,21 +169,59 @@
    FLUSH PRIVILEGES;
    quit
    ```
+
+
 #### Login with testuser on the DB testdb
    ```bash
-   # mysql -u testuser -p (the password is password)
+   sudo mysql -u testuser -p (the password is password)
    ```
    ```sql
    USE testdb;
    ```
 
+
 ### NGINX
    ```bash
-   # sudo apt install ngyinx
-   # service nginx start
+   sudo apt install ngyinx
+   sudo service nginx start
    ```
+
 
 ### PHP - FPM
    ```bash
-   $ sudo apt install php7.0 php7.0-common php7.0-cli php7.0-fpm
+   sudo apt install php7.0 php7.0-common php7.0-cli php7.0-fpm
    ```
+
+
+## System configuration
+
+### Script for create a new user
+   - Create the file
+   ```bash
+   nano newuser
+   ```
+   - Copy/past this
+   ```bash
+   #!/bin/bash
+
+   echo -e "\nCreate a user, force to change password and edit personnal folder permissions"
+   echo "User name:"
+   read varname
+
+   sudo adduser $varname
+   sudo passwd -e $varname
+   sudo chmod 700 /home/$varname
+   ```
+   - Make it executable
+   ```bash
+   chmod 700 newuser
+   ```
+
+### Create an user
+   - Add a new user
+   ```bash
+   sudo ./newuser user_name
+   ```
+   Unix password is the password for the user, you can put a **temporary password**.
+   You can just press enter on : *Full Name*, *Room Number*, *Work Phone*, *Home Phone* and *Other*.
+   **The user is forced to change the password at first login and personnal folder permissions are changed**
