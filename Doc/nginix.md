@@ -2,10 +2,10 @@ commande à faire
 
 	sudo apt update
 	sudo apt install nginx
-
+	
 	lancer nginx
 	service nginx start
-
+	
 	on peut le voir sur l'adresse ip du serveur, la page d'accueil de NGINX
 
 
@@ -15,19 +15,21 @@ commande à faire
 
 
 	<html>
-    <head>
-        <title>Welcome to Example.com!</title>
-    </head>
-    <body>
-        <h1>Success!  The example.com server block is working!</h1>
-    </body>
+	<head>
+	    <title>Welcome to Example.com!</title>
+	</head>
+	<body>
+	    <h1>Success!  The example.com server block is working!</h1>
+	</body>
+	</html>
 </html>
 
  Il faut faire le truck de base, et dans le script, à chaque fois, ajouter le truck avec le site de base 
-                                                                  
+​                                                                  
       server_name 172.17.208.69;                                  
-                                                                  
-                                                                  
+
+
+​                                                                  
       location / {                                                
               return 418;                                         
       }                                                           
@@ -46,7 +48,7 @@ commande à faire
               alias /var/www/proj3;                               
               try_files $uri /index.html index.php;               
       }                                                           
-                                                                  
+
 
 
 Il faut le "x" dans le "other" afin d'y accéder sur la page web.

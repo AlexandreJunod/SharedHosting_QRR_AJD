@@ -182,14 +182,34 @@
 
 ### NGINX
    ```bash
-   sudo apt install ngyinx
+   sudo apt install nginx
    sudo service nginx start
+   ---
+   pas oublié de changer root et retiré html pour le faire lire au bon endroit
+   rajouter /html/ au site par default
+   créer un nouveau avec /$USER/
+   droits 755 -R pour recursive
+   appartenance a $USER:$USER -R 
    ```
 
 
 ### PHP - FPM
    ```bash
    sudo apt install php7.0 php7.0-common php7.0-cli php7.0-fpm
+   sudo cp www.conf cpnv.conf crée une copie de la pool de base
+   Pool name. It is on the top [www]. Rename it to [mysite].
+   user = mysite_user
+   group = mysite_user
+   listen = /var/run/php/php7.0-fpm-mysite.sock
+On peut voir les erreur dans le log et le acces file
+
+   location ~ \.php$ {
+                try_files $uri $uri/ =404;
+                fastcgi_pass unix:/var/run/php/php7.0-fpm-cpnv.sock;
+                fastcgi_index index.php;
+
+                include fastcgi_params;
+                fastcgi_param PATH_INFO $uri;
    ```
 
 
