@@ -9,7 +9,7 @@
    **Only follow theses steps if you are installing your OS on VMware Workstation 12**
    - On VMware : File → New virtual machine
    - Virtual Machine Configuration → Custom (advanced)
-   - Hardware compatibility → Workstation 12.0 
+   - Hardware compatibility → Workstation 12.0
    - Install from → Installer disc image (iso) → **your path to the Debian ISO**
    - Guest Operating System → Linux
    - Version → Debian [last version] 64-bit
@@ -45,7 +45,7 @@
 
 ### Choice of root and user account
    - Root password → **PASSWORD**
-   - Re-enter password to verify → **PASSWORD** 
+   - Re-enter password to verify → **PASSWORD**
    - Full name for the new user → **USER FULL NAME**
    - Username for your account → **USERNAME**
    - Choose a password for the new user → **PWD USER**
@@ -136,48 +136,9 @@
 
 
 ### Maria DB
-
-#### Installation
    ```bash
    sudo apt-get install mariadb-server   
    ```
-
-
-#### Configuration
-   - Connecter to the DB (Password is the password of root user)
-   ```bash
-   sudo mysql -u root -p
-   ```
-
-
-#### Create a new DB, new user and give all the privileges of the DB on the user
-   ```sql
-   //Enter line after line
-   CREATE DATABASE **USERNAME DB**;
-   CREATE USER 'USERNAME'@'localhost' IDENTIFIED BY 'password';
-   GRANT ALL PRIVILEGES ON testdb.* TO USERNAME@localhost;
-   FLUSH PRIVILEGES;
-   quit
-   ```
-
-
-#### Allow the user to connect on the DB from remote host
-   ```sql
-   //Enter line after line
-   GRANT ALL PRIVILEGES ON USERNAME DB.* TO USERNAME@'%' IDENTIFIED BY 'password';
-   FLUSH PRIVILEGES;
-   quit
-   ```
-
-
-#### Login with testuser on the DB testdb
-   ```bash
-   sudo mysql -u testuser -p (the password is password)
-   ```
-   ```sql
-   USE testdb;
-   ```
-
 
 ### NGINX
    ```bash
@@ -188,96 +149,92 @@
    rajouter /html/ au site par default
    créer un nouveau avec /$USER/
    droits 700 -R pour recursive
-   appartenance a $USER:$USER -R 
+   appartenance a $USER:$USER -R
    ```
 
 
-### PHP - FPM BLOCK A REVOIR ET CORRIGER -> TOUT ANGLAIS
+### PHP - FPM
    ```bash
    sudo apt install php7.0 php7.0-common php7.0-cli php7.0-fpm
-   sudo cp www.conf cpnv.conf crée une copie de la pool de base
-   Pool name. It is on the top [www]. Rename it to [mysite].
-   user = mysite_user
-   group = mysite_user
-   listen = /var/run/php/php7.0-fpm-mysite.sock
-   On peut voir les erreur dans le log et le acces file
-
-   location ~ \.php$ {
-                try_files $uri $uri/ =404;
-                fastcgi_pass unix:/var/run/php/php7.0-fpm-cpnv.sock;
-                fastcgi_index index.php;
-			   fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-                include fastcgi_params;
-                fastcgi_param PATH_INFO $uri;
-                
-     restart les services
    ```
 
+## How did we isolate the users
+We have first proceed by creating new users, and next we have changed the home direcory of all users on 700 to prevent intrusions by other users.
 
-## System configuration
+For the maria db we create every time a new user and a new db and he is the only one who had all permissions of his db.
 
-### Script for create a new user
-   - Create the file
-   ```bash
-   nano newuser
-   ```
-   - Copy/past this
-   ```bash
-   #!/bin/bash
+For the website and create every time a folder, next we change the owner and then we give him all rights and remove rights to others and group.
 
-   echo -e "\nCreate a user, force to change password and edit personnal folder permissions"
-   echo "User name:"
-   read varname
+We create a new site for every user linked on his own php pool
 
-   sudo adduser $varname
-   sudo passwd -e $varname
-   sudo chmod 700 /home/$varname
-   ```
-   - Make it executable
-   ```bash
-   chmod 700 newuser
-   ```
-   - Change owner
-   ```bash
-   sudo chown root newuser
-   ```
-   - Place on a directory saved on thr $PATH
-   ```bash
-   sudo mv newuser /bin
-   ```
+And for the pool, we configure it for the user who will use it
 
-### Create an user
-   - Add a new user
-   ```bash
-   sudo ./newuser user_name
-   ```
-   Unix password is the password for the user, you can put a **temporary password**.
-   You can just press enter on : *Full Name*, *Room Number*, *Work Phone*, *Home Phone* and *Other*.
-   **The user is forced to change the password at first login and personnal folder permissions are changed**
+## How to proced when a client want an espace
+### New user
+- Add a new user
+```bash
+sudo adduser USERNAME
+```
+Unix password is the password for the user, you can put a **temporary password**.
+You can just press enter on : *Full Name*, *Room Number*, *Work Phone*, *Home Phone* and *Other*.
 
+- Change directory permissions
+```bash
+sudo chmod 700 /home/USERNAME
+```
 
+- Create website reportory
+```bash
+sudo mkdir /var/www/USERNAME
+```
 
+- If you want you can put a page index.html and a page php
+```bash
+sudo nano /var/www/USERNAME/index.html
+sudo nano /var/www/USERNAME/default.php
+```
 
+- Change permissions and owner
+```bash
+sudo chmod 700 -R /var/www/USERNAME/
+sudo chown USERNAME:USERNAME -R /var/www/USERNAME/
+```
 
-Procèdure création a to z : test live pour pas manquer d'étapes 09.11.2018
+### Maria DB
+- Create a DB for the ner user, first connect
+```bash
+sudo mysql -u root -p
+```
 
-sudo adduser quentin
+- Create the db and give privileges
+```sql
+CREATE DATABASE USERNAME-DB;
+CREATE USER 'USERNAME'@'localhost' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON USERNAME-DB.* TO USERNAME@localhost;
+FLUSH PRIVILEGES;
+quit
+```
 
-sudo chmod 700 /home/quentin
+- Allow the user to connect on the DB from remote host
+```sql
+GRANT ALL PRIVILEGES ON USERNAME DB.* TO USERNAME@'%' IDENTIFIED BY 'password';
+FLUSH PRIVILEGES;
+quit
+```
 
-sudo mkdir /var/www/quentin
+### Nginx
+- Create a new site with the copy command
+```bash
+sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/USERNAME
+```
 
-sudo nano /var/www/quentin/index.html
+- Edit the file created
+```bash
+sudo nano /etc/nginx/sites-available/USERNAME
+```
 
-sudo chmod 700 -R /var/www/quentin/
-
-sudo chown quentin:quentin -R /var/www/quentin/
-
-sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/quentin
-
-sudo nano /etc/nginx/sites-available/quentin
-
-```` 
+- And edit to put the site like this
+````bash
 server {
         listen 80;
         listen [::]:80;
@@ -297,12 +254,12 @@ server {
         # Don't use them in a production server!
         #
         # include snippets/snakeoil.conf;
-		root /var/www/quentin/;
+	     root /var/www/USERNAME/;
 
         # Add index.php to the list if you are using PHP
-        index index.html index.htm index.nginx-debian.html;
+        index index.html index.htm;
 
-        server_name quentin.com;
+        server_name USERNAME.com;
 
 		location / {
                 try_files $uri $uri/ =404;
@@ -310,27 +267,35 @@ server {
 
         location ~ \.php$ {
                 try_files $uri $uri/ =404;
-                fastcgi_pass unix:/var/run/php/php7.0-fpm-quentin.sock;
+                fastcgi_pass unix:/var/run/php/php7.0-fpm-USERNAME.sock;
                 fastcgi_index index.php;
                 fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
                 include fastcgi_params;
                 fastcgi_param PATH_INFO $uri;
         }
 ````
+- Create an alias to enable the site
+```bash
+sudo ln -s /etc/nginx/sites-available/USERNAME /etc/nginx/sites-enabled/
+```
 
-**TRES IMPORTANT** retiré le "default_server" dans listen, celui-ci empêche d'avoir plusieurs sites
+### Php pool
+- Create a new pool for the user
+```bash
+sudo cp /etc/php/7.0/fpm/pool.d/www.conf /etc/php/7.0/fpm/pool.d/USERNAME.conf
+```
 
-sudo ln -s /etc/nginx/sites-available/quentin /etc/nginx/sites-enabled/
+- Edit the pool
+```bash
+sudo nano /etc/php/7.0/fpm/pool.d/USERNAME.conf
+```
 
-sudo cp /etc/php/7.0/fpm/pool.d/www.conf /etc/php/7.0/fpm/pool.d/quentin.conf
+- And edit to put the site like this
 
-sudo nano /etc/php/7.0/fpm/pool.d/quentin.conf
-
-```` 
 ; Start a new pool named 'www'.
 ; the variable $pool can be used in any directive and will be replaced by the
 ; pool name ('www' here)
-[quentin]
+[USERNAME]
 
 ; Per pool prefix
 ; It only applies on the following directives:
@@ -349,8 +314,8 @@ sudo nano /etc/php/7.0/fpm/pool.d/quentin.conf
 ; Unix user/group of processes
 ; Note: The user is mandatory. If the group is not set, the default user's group
 ;       will be used.
-user = quentin
-group = quentin
+user = USERNAME
+group = USERNAME
 ; The address on which to accept FastCGI requests.
 ; Valid syntaxes are:
 ;   'ip.add.re.ss:port'    - to listen on a TCP socket to a specific IPv4 address on
@@ -361,18 +326,19 @@ group = quentin
 ;                            (IPv6 and IPv4-mapped) on a specific port;
 ;   '/path/to/unix/socket' - to listen on a unix socket.
 ; Note: This value is mandatory.
-listen = /run/php/php7.0-fpm-quentin.sock
-````
+listen = /run/php/php7.0-fpm-USERNAME.sock
 
- sudo service php7.0-fpm restart
 
+- Restart the services
+```bash
+sudo service php7.0-fpm restart
 sudo service nginx restart
+```
 
-PS : j'ai recrée un "cpnv" qui est identique a quentin, sauf pour le chemin root
+- On windows on the host file add
+```bash
+YOUR ADDRESS USERNAME.com
+```
 
-fichiers host :
-
-172.17.218.69 cpnv.com
-172.17.218.69 quentin.com
-
-se connecter : http://cpnv.com et http://quentin.com
+- Connect to the site
+http://USERNAME.com
