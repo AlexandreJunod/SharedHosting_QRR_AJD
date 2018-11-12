@@ -290,7 +290,7 @@ sudo cp /etc/php/7.0/fpm/pool.d/www.conf /etc/php/7.0/fpm/pool.d/USERNAME.conf
 sudo nano /etc/php/7.0/fpm/pool.d/USERNAME.conf
 ```
 
-- And edit to put the site like this
+- And edit to put the site like this :
 
 ; Start a new pool named 'www'.
 ; the variable $pool can be used in any directive and will be replaced by the
