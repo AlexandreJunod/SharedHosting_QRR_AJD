@@ -47,7 +47,7 @@
    - Root password → **PASSWORD**
    - Re-enter password to verify → **PASSWORD** 
    - Full name for the new user → **USER FULL NAME**
-   - Username for your account → **USER**
+   - Username for your account → **USERNAME**
    - Choose a password for the new user → **PWD USER**
    - Re-enter password to verify → **PWD USER**
 
@@ -79,7 +79,7 @@
    ```bash
    nano /etc/network/interfaces
    ```
-   - Put everything like in the example under (You can put another **IP, Netmask, Gateway**) :
+   - Put everything like in the example under (You have to put your **IP, Netmask, Gateway**) :
    ```bash
       # This file describes the network interfaces available on your system
       # and how to activate them. For more information, see interfaces(5).
@@ -153,9 +153,9 @@
 #### Create a new DB, new user and give all the privileges of the DB on the user
    ```sql
    //Enter line after line
-   CREATE DATABASE testdb;
-   CREATE USER 'testuser'@'localhost' IDENTIFIED BY 'password';
-   GRANT ALL PRIVILEGES ON testdb.* TO testuser@localhost;
+   CREATE DATABASE **USERNAME DB**;
+   CREATE USER 'USERNAME'@'localhost' IDENTIFIED BY 'password';
+   GRANT ALL PRIVILEGES ON testdb.* TO USERNAME@localhost;
    FLUSH PRIVILEGES;
    quit
    ```
@@ -164,7 +164,7 @@
 #### Allow the user to connect on the DB from remote host
    ```sql
    //Enter line after line
-   GRANT ALL PRIVILEGES ON testdb.* TO testuser@'%' IDENTIFIED BY 'secretpassword';
+   GRANT ALL PRIVILEGES ON USERNAME DB.* TO USERNAME@'%' IDENTIFIED BY 'password';
    FLUSH PRIVILEGES;
    quit
    ```
