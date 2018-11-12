@@ -9,12 +9,12 @@
    **Only follow theses steps if you are installing your OS on VMware Workstation 12**
    - On VMware : File → New virtual machine
    - Virtual Machine Configuration → Custom (advanced)
-   - Hardware compatibility → Workstation
+   - Hardware compatibility → Workstation 12.0 
    - Install from → Installer disc image (iso) → **your path to the Debian ISO**
    - Guest Operating System → Linux
    - Version → Debian [last version] 64-bit
       - I've chose → version → Debian 8.x 64-bit
-   - Virtual machine name → SharedHosting_ **NAME**
+   - Virtual machine name → **NAME**
    - Location → **Where you want**
    - Number of processors → 1
    - Memory → 1024 MB
@@ -24,11 +24,11 @@
    - Disk → Create a new virtual disk
    - Disk Size → Maximum disk size (in GB) → 20.0
    - Split virtual disk into multiple files
-   - Disk File → SharedHosting_**NAME**.vmdk
-      - Customize Hardware
-      - Enlever → USB Controller
-      - Enlever → Sound Card
-      - Enlever → Printer
+   - Disk File → **NAME**.vmdk
+    - Customize Hardware
+      - Remove → USB Controller
+      - Remove → Sound Card
+      - Remove → Printer
 
 
 ## Debian Installation
@@ -36,21 +36,20 @@
 ### Choice of country and language
    - Power on the Debian OS
    - Debian GNU/Linux installer boot menu → Install
-   - Language → English - English
-   - Country, territory or area → United States
-   - Keymap to use → Swiss French. *It's important to get a **QWERTZ** keyboard*
-   - Hostname → SharedHosting- **NAME**
+   - Language → **LANGUAGE**
+   - Country, territory or area → **COUNTRY**
+   - Keymap to use → **YOUR KEYMAP**
+   - Hostname →  **NAME**
    - Domain name → Let it empty
 
 
 ### Choice of root and user account
-   - Root password → root. *It's an example, for security use a true password*
-   - Re-enter password to verify → root
-   - Full name for the new user → cpnv
-   - Username for your account → cpnv
-   - Choose a password for the new user → cpnv. *It's an example, for security use a true password*
-   - Re-enter password to verify → cpnv
-   - Select your time zone → Central
+   - Root password → **PASSWORD**
+   - Re-enter password to verify → **PASSWORD** 
+   - Full name for the new user → **USER FULL NAME**
+   - Username for your account → **USER**
+   - Choose a password for the new user → **PWD USER**
+   - Re-enter password to verify → **PWD USER**
 
 
 ### Partitioning disks  
@@ -73,7 +72,7 @@
    - Finish the installation → Continue
 
    Now, the installation is finish
-   **Take a snapshot of the VM if you're using VMware**
+   **It's safer to take a snapshot of the VM if you're using VMware**
 
 
 ### Configuration ip, connected as root
